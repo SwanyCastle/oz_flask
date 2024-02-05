@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ data.title }}</title>
+    <title>Flask 1일차 과제</title>
 </head>
 <body>
-    <h1>Hello, {{ user }}!</h1>
-
-    {% if data.is_admin %}
-        <p>You have admin privileges.</p>
-    {% else %}
-        <p>You do not have admin privileges.</p>
-    {% endif %}
-
+    <h3>User List</h3>
     <ul>
-        {% for item in data.item_list %}
-            <li>{{ item }}</li>
+        {% for i in data %}
+            <li>{{ i['username'] ~ ' ' ~ i['name'] }}</li>
         {% endfor %}
     </ul>
 </body>
