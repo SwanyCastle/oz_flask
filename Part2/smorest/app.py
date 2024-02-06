@@ -4,7 +4,8 @@ from api import blp
 
 app = Flask(__name__)
 
-# OpenAPI 관련 설정
+# flask-smorest 를 사용하게 되면 OpenAPI 및 Swagger 설정을 통해서 API 문서화가 가능
+# OpenAPI 및 Swagger 설정
 app.config["API_TITLE"] = "My API"
 app.config["API_VERSION"] = "v1"
 app.config["OPENAPI_VERSION"] = "3.1.3"
