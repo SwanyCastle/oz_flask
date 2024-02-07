@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Post Management</title>
+  </head>
+  <body>
+    <h1>Post Management</h1>
+
+    <!-- 게시글 생성 폼 -->
+    <form id="createPostForm">
+      <input type="text" id="postTitle" placeholder="Title" />
+      <textarea id="postContent" placeholder="Content"></textarea>
+      <button type="submit">Create Post</button>
+    </form>
+
+    <!-- 게시글 조회 -->
+    <button onclick="getPosts()">Get All Posts</button>
+    <div id="posts"></div>
+
+    <!-- 게시글 수정 폼 -->
+    <form id="updatePostForm">
+      <input type="number" id="updatePostId" placeholder="Post ID" />
+      <input type="text" id="updatePostTitle" placeholder="New Title" />
+      <textarea id="updatePostContent" placeholder="New Content"></textarea>
+      <button type="submit">Update Post</button>
+    </form>
+
+    <!-- 게시글 삭제 -->
+    <form id="deletePostForm">
+      <input type="number" id="deletePostId" placeholder="Post ID" />
+      <button type="submit">Delete Post</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("createPostForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const title = document.getElementById("postTitle").value;
+          const content = document.getElementById("postContent").value;
+
+          fetch("/posts", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title, content }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              getPosts(); // 게시글 목록을 다시 불러옵니다.
+            });
+        });
+
+      function getPosts() {
+        fetch("/posts")
+          .then((response) => response.json())
+          .then((data) => {
+            const postsDiv = document.getElementById("posts");
+            postsDiv.innerHTML = "";
+            data.forEach((post) => {
+              postsDiv.innerHTML += `<p>${post.title} - ${post.content} (Post ID: ${post.id}, Created At: ${post.created_at})</p>`;
+            });
+          });
+      }
+
+      document
+        .getElementById("updatePostForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const postId = document.getElementById("updatePostId").value;
+          const title = document.getElementById("updatePostTitle").value;
+          const content = document.getElementById("updatePostContent").value;
+
+          fetch("/posts/" + postId, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title, content }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              getPosts(); // 게시글 목록을 다시 불러옵니다.
+            });
+        });
+
+      document
+        .getElementById("deletePostForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const postId = document.getElementById("deletePostId").value;
+
+          fetch("/posts/" + postId, {
+            method: "DELETE",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              getPosts(); // 게시글 목록을 다시 불러옵니다.
+            });
+        });
+    </script>
+  </body>
+</html>
