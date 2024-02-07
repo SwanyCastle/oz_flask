@@ -19,7 +19,8 @@ class BoardList(MethodView):
             {
                 "id": board.id, 
                 "title": board.title, 
-                "content": board.content, 
+                "content": board.content,
+                "user_id": board.user_id,
                 "author_name": board.author.name, 
                 "author_email": board.author.email
             } for board in boards
@@ -67,3 +68,4 @@ class BoardResource(MethodView):
         db.session.delete(board)
         db.session.commit()
         return jsonify({"msg": "successfully delete board data"}), 200
+        # return jsonify({"msg": "successfully delete board data"}), 204 -> 204 로 내려주면 postman 에 msg 표시 안됨

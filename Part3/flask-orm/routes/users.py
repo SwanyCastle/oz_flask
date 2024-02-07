@@ -10,15 +10,15 @@ user_blp = Blueprint('Users', 'users', description="Operations on users", url_pr
 class UserList(MethodView):
     # 1. 전체 유저 데이터 조회 (GET)
     def get(self):
-        boards = User.query.all()
+        users = User.query.all()
 
         users_data = [
             {
-                "user_id": board.id,
-                "user_name": board.name,
-                "user_emaiol": board.email
+                "id": user.id,
+                "name": user.name,
+                "email": user.email
             }
-            for board in boards
+            for user in users
         ]
 
         return jsonify(users_data)
@@ -38,8 +38,8 @@ class UserResource(MethodView):
         user = User.query.get_or_404(user_id)
 
         return jsonify({
-            "user_name": user.name,
-            "user_email": user.email
+            "name": user.name,
+            "email": user.email
         })
 
     # 2. 특정 유저 데이터 업데이트 (PUT)
@@ -59,3 +59,4 @@ class UserResource(MethodView):
         db.session.delete(user)
         db.session.commit()
         return jsonify({"msg": "Successfully Deleted User"}), 200
+        # return jsonify({"msg": "Successfully Deleted User"}), 204 -> 204 로 내려주면 postman 에 msg 표시 안됨
