@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Post Management</title>
   </head>
   <body>
@@ -61,7 +63,7 @@
             const postsDiv = document.getElementById("posts");
             postsDiv.innerHTML = "";
             data.forEach((post) => {
-              postsDiv.innerHTML += `<p>${post.title} - ${post.content} (Post ID: ${post.id}, Created At: ${post.created_at})</p>`;
+              postsDiv.innerHTML += `<p>${post.title} - ${post.content} - Post ID: ${post.id} (Created At: ${post.created_at}, Updated At: ${post.updated_at})</p>`;
             });
           });
       }
