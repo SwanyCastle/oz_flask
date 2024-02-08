@@ -29,6 +29,9 @@ def login():
     # 있으면 secret 페이지로 redirect 시켜줌
     if username in users and users[username] == password :
         session['username'] = username
+        # session 값을 가져 올 때
+        # username = session['username']
+        # username = session.get('username') - get() 을 사용하면 키가 존재 하지 않을 경우 None 값을 반환
         return redirect('/secret')
     
     # 없으면 메인페이지로 redirect 시켜줌
