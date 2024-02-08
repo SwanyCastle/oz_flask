@@ -1,10 +1,13 @@
 # flash - redirect 하기전에 알려주는 안내메시지를 띄워주는 역할
 from flask import Flask, render_template, redirect, request, session, flash
+from datetime import timedelta
 
 app = Flask(__name__)
 
 # 실제로 배포시에는 .env 또는 yaml 에 따로 저장해서 배포 해야함 github 에 올리면 우리 DB 의 모든 정보가 털릴 수 있음
 app.secret_key = 'flask-secret-key' 
+# 세션이 유지되는 기간을 설정
+app.config['PERMANENT_SESSION_LIFEITME'] = timedelta(days=5)
 
 # admin user
 users = {
@@ -29,6 +32,8 @@ def login():
     # 있으면 secret 페이지로 redirect 시켜줌
     if username in users and users[username] == password :
         session['username'] = username
+        # 위에서 설정한 세션 유지기간을 활성화 시켜줘야 함
+        session.permanent = True
         # session 값을 가져 올 때
         # username = session['username']
         # username = session.get('username') - get() 을 사용하면 키가 존재 하지 않을 경우 None 값을 반환
@@ -56,6 +61,7 @@ def logout():
     # 세션에서 현제 유저의 세션 정보를 삭제(pop 이라서 스택에서 꺼내는 느낌) 하고 
     # 메인 페이지로 redirect 시켜줌
     session.pop('username', None)
+    # session.clear() - 현재 세션을 발급해준 유저의 모든 세션정보 ex) username, password 등등 을 모두 제거
     return redirect('/')
 
 if __name__ == "__main__":
