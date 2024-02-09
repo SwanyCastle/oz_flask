@@ -14,7 +14,6 @@ def app_configure(app):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
     db.init_app(app)
-
     migrate = Migrate(app, db)
 
     app.config["API_TITLE"] = "ORM API"
